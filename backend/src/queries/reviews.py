@@ -7,6 +7,7 @@ from src.queries import Repository
 from src.models.review import Review
 
 from pydantic import BaseModel, Field
+from datetime import datetime
 
 class ReviewCreate(BaseModel):
     rental_id: UUID
@@ -20,7 +21,7 @@ class ReviewResponse(BaseModel):
     recipient_id: UUID
     rating: int
     comment: str
-    created_at: str
+    created_at: datetime
 
     class Config:
         from_attributes = True
@@ -29,7 +30,7 @@ async def create_review(db: AsyncSession, author_id: UUID, review: ReviewCreate)
     repo = Repository(db)
 
     # Проверка аренды
-    rental = await repo.rentals.get_by_id(Rental, review.rental_id)  # ← нужно импортировать Rental
+    rental = await repo.rentals.get_by_id(Rental, review.rental_id)  
     if not rental or rental.tenant_id != author_id:
         raise ValueError("Invalid rental or unauthorized")
 

@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Text, Numeric, Boolean, DateTime, Foreign
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from . import Base
+from src.database.connection import Base
 import uuid
 
 class Item(Base):
@@ -19,8 +19,8 @@ class Item(Base):
     latitude = Column(Numeric(10, 7), index=True)
     longitude = Column(Numeric(10, 7), index=True)
     is_available = Column(Boolean, default=True, index=True)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    # created_at = Column(DateTime(timezone=True), server_default=func.now())
+    # updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
     # Связи
     owner = relationship("User", foreign_keys=[owner_id], back_populates="owned_items")

@@ -8,7 +8,7 @@ from src.models.user import User, UserAuth
 from src.queries import Repository
 from src.utils.security import get_password_hash, verify_password, create_access_token
 
-router = APIRouter(prefix="/auth", tags=["Auth"])
+router = APIRouter()
 
 
 @router.post("/register", response_model=Token)
@@ -30,7 +30,7 @@ async def register(user: UserRegister, db: DatabaseDep):
         "phone": user.phone,
     }
     auth_data = {
-        "password_hash": get_password_hash(user.password)
+    "password_hash": get_password_hash(user.password)
     }
 
     db_user = await repo.users.create_with_auth(user_data, auth_data)
@@ -48,7 +48,7 @@ async def login(credentials: UserLogin, db: DatabaseDep):
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid credentials",
+            detail="Invalid CREDentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
@@ -58,7 +58,7 @@ async def login(credentials: UserLogin, db: DatabaseDep):
     if not user_auth or not verify_password(credentials.password, user_auth.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid credentials",
+            detail="Invalid cREdentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
 

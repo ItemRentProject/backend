@@ -1,13 +1,14 @@
-from .user import UserRepository
-from .category import CategoryRepository
-from .item import ItemRepository
-from .rental import RentalRepository
-from .conversation import ConversationRepository
-from .message import MessageRepository
-from .review import ReviewRepository
+from .orm import UserRepository
+from .orm import CategoryRepository
+from .orm import ItemRepository
+from .orm import RentalRepository
+from .orm import ConversationRepository
+from .orm import MessageRepository
+from .orm import ReviewRepository
 
 class Repository:
     def __init__(self, session):
+        self.session = session
         self.users = UserRepository(session)
         self.categories = CategoryRepository(session)
         self.items = ItemRepository(session)
